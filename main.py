@@ -22,7 +22,7 @@ dest_dir = BASE_BACKUP_DIR + "/" + str(today)
 def perform_backup():
     size = get_backup_size()
     print("Backup starting, total size is %s MB" % size)
-    copy_tree(SRC_DIR, dest_dir)
+    shutil.copytree(SRC_DIR, dest_dir)
     print("Backup completed")
 
 
