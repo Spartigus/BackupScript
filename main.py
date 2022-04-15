@@ -26,7 +26,7 @@ dest_dir = backup_dir + "/" + str(today)
 def perform_backup():
     total_size, files_backup = get_backup_size()
     print(
-        "Backup Starting \nTotal Files: %s \nTotal Size: %s MB"
+        "Backup Starting \nTotal files for backup: %s \nTotal size to backup: %s MB"
         % (files_backup, str("{0:.2f}".format(total_size)))
     )
     shutil.copytree(source_dir, dest_dir, ignore=logpath)
