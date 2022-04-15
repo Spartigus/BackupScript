@@ -6,6 +6,7 @@ import sys
 from os import path
 from os import walk
 import logging
+import time
 
 # Local imports
 from dotenv import load_dotenv
@@ -20,12 +21,13 @@ today = date.today()
 date_format = today.strftime("%d_%b_%Y")
 dest_dir = backup_dir + "/" + str(today)
 
+
 # Backup files to a folder named todays date
 def perform_backup():
     total_size, files_backup = get_backup_size()
     print(
         "Backup Starting \nTotal Files: %s \nTotal Size: %s MB"
-        % (files_backup, total_size)
+        % (files_backup, str("{0:.2f}".format(total_size)))
     )
     shutil.copytree(source_dir, dest_dir, ignore=logpath)
     print("Backup completed")
@@ -65,14 +67,39 @@ def get_backup_size():
     return total_size / 1024**2, files_backup
 
 
+# Get the size of the backup output including hidden folders
+def output_size():
+    backup_size = 0
+    file_count = 0
+
+    # Itterates through the entire directory to add the size of each file up
+    for path, dirs, files in os.walk(dest_dir):
+        for f in files:
+            fp = os.path.join(path, f)
+            backup_size += os.path.getsize(fp)
+            file_count += 1
+
+    return backup_size / 1024**2
+
+
 # Logging function in shutil to log information
 def logpath(path, names):
     # Truncating the path to fit
     cur_dir = str(path)
-    dis_dir = cur_dir[0:25] + "..." + cur_dir[len(cur_dir) - 25 : len(cur_dir)]
+    backup_size = output_size()
+    dis_dir = (
+        "Current Dir: "
+        + cur_dir[0:30]
+        + "..."
+        + cur_dir[len(cur_dir) - 30 : len(cur_dir)]
+        + " | ---- | Backup Size: "
+        + str("{0:.2f}".format(backup_size))
+        + " MB"
+    )
 
+    out_string = dis_dir
     # Displaying the path information
-    print("Current Directory: ", dis_dir, end="\r")
+    print(out_string, end="\r")
     sys.stdout.flush()
     return []  # nothing will be ignored
 
