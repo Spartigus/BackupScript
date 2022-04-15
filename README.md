@@ -8,4 +8,4 @@ To alter the location of the backup and the source folders, edit the .env file l
 
 Below is a screenshot of an example of the CLI display:
 
-![Screenshot from 2022-04-15 13-24-56](https://user-images.githubusercontent.com/99443437/163513445-68c6ea28-a934-498a-82fb-2fb4f65d69ea.png)
+![Screenshot from 2022-04-15 17-17-52](https://user-images.githubusercontent.com/99443437/163538246-3be59ad7-9b29-4046-b6ce-3a1f5d241d67.png)
