@@ -6,15 +6,16 @@ import sys
 from os import path
 from os import walk
 import logging
-import time
 
 # Local imports
 from dotenv import load_dotenv
 
-# Get the values of the source and backup directories from the environment variable folder
+
+# Return the values of the source and backup directories from the environment variable folder
 load_dotenv()
 source_dir = str(os.getenv("SRC_DIR"))
 backup_dir = str(os.getenv("BASE_BACKUP_DIR"))
+
 
 # Return todays date to name the backup folder
 today = date.today()
@@ -22,7 +23,7 @@ date_format = today.strftime("%d_%b_%Y")
 dest_dir = backup_dir + "/" + str(today)
 
 
-# Backup files to a folder named todays date
+# Backup files to a folder named todays date with CLI output
 def perform_backup():
     total_size, files_backup = get_backup_size()
     print(
@@ -44,7 +45,7 @@ def get_folders():
         if "." not in dir:
             dir_list.append(dir)
 
-    # Determines if there is more than 5 backups and deletes the oldest one
+    # Determines if there is more than 5 backups and deletes the oldest one with CLI output
     if len(dir_list) > 5:
         dir_list.sort()
         print("Deleting oldest backup dated: ", dir_list[0])
@@ -52,7 +53,7 @@ def get_folders():
         shutil.rmtree(oldest_backup)
 
 
-# Get the size of the backup and returning this in megabytes. This includes hidden folders
+# Returns the size of the backup source in megabytes, this includes hidden folders
 def get_backup_size():
     total_size = 0
     files_backup = 0
@@ -67,7 +68,7 @@ def get_backup_size():
     return total_size / 1024**2, files_backup
 
 
-# Get the size of the backup output including hidden folders
+# Returns the size of the backup output in megabytes, this includes hidden folders
 def output_size():
     backup_size = 0
     file_count = 0
@@ -82,9 +83,9 @@ def output_size():
     return backup_size / 1024**2
 
 
-# Logging function in shutil to log information
+# Logging function in shutil to display information at each operation
 def logpath(path, names):
-    # Getting variables to display information to user
+    # Getting variables used to generate CLI output informaton
     cur_dir = str(path)
     backup_size = output_size()
 
@@ -109,13 +110,15 @@ def logpath(path, names):
             + " MB"
         )
 
-    # This variable is the result of the above to generate the user display info
+    # This variable is the result of the above to generate the CLI output info
     out_string = dis_dir
 
-    # Displaying the informaton to the user
+    # Displaying the CLI output to the user and refreshing the same line
     print(out_string, end="\r")
     sys.stdout.flush()
-    return []  # nothing will be ignored
+
+    # nothing will be ignored
+    return []
 
 
 # Logic to run the program and ensures a backup wasn't done already today
