@@ -2,8 +2,10 @@
 import shutil
 from datetime import date
 import os
+import sys
 from os import path
 from os import walk
+import logging
 
 # Local imports
 from dotenv import load_dotenv
@@ -18,12 +20,14 @@ today = date.today()
 date_format = today.strftime("%d_%b_%Y")
 dest_dir = backup_dir + "/" + str(today)
 
-
 # Backup files to a folder named todays date
 def perform_backup():
-    size = get_backup_size()
-    print("Backup starting, total size is %s MB" % size)
-    shutil.copytree(source_dir, dest_dir)
+    total_size, files_backup = get_backup_size()
+    print(
+        "Backup Starting \nTotal Files: %s \nTotal Size: %s MB"
+        % (files_backup, total_size)
+    )
+    shutil.copytree(source_dir, dest_dir, ignore=logpath)
     print("Backup completed")
 
 
@@ -49,14 +53,23 @@ def get_folders():
 # Get the size of the backup and returning this in megabytes. This includes hidden folders
 def get_backup_size():
     total_size = 0
+    files_backup = 0
 
     # Itterates through the entire directory to add the size of each file up
     for path, dirs, files in os.walk(source_dir):
         for f in files:
             fp = os.path.join(path, f)
             total_size += os.path.getsize(fp)
+            files_backup += 1
 
-    return total_size / 1024**2
+    return total_size / 1024**2, files_backup
+
+
+# Logging function in shutil to log information
+def logpath(path, names):
+    print("Current Directory: ", path, end="\r")
+    sys.stdout.flush()
+    return []  # nothing will be ignored
 
 
 # Logic to run the program and ensures a backup wasn't done already today
