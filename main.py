@@ -84,21 +84,35 @@ def output_size():
 
 # Logging function in shutil to log information
 def logpath(path, names):
-    # Truncating the path to fit
+    # Getting variables to display information to user
     cur_dir = str(path)
     backup_size = output_size()
-    dis_dir = (
-        "Current Dir: "
-        + cur_dir[0:30]
-        + "..."
-        + cur_dir[len(cur_dir) - 30 : len(cur_dir)]
-        + " | ---- | Backup Size: "
-        + str("{0:.2f}".format(backup_size))
-        + " MB"
-    )
 
+    # Handling a path longer than 50 chars for displaying correctly
+    if len(cur_dir) > 50:
+        dis_dir = (
+            "Current Dir: "
+            + cur_dir[0:20]
+            + "..."
+            + cur_dir[len(cur_dir) - 30 : len(cur_dir)]
+            + " | ---- | Backup Size: "
+            + str("{0:.2f}".format(backup_size))
+            + " MB"
+        )
+
+    else:
+        dis_dir = (
+            "Current Dir: "
+            + cur_dir
+            + " | ---- | Backup Size: "
+            + str("{0:.2f}".format(backup_size))
+            + " MB"
+        )
+
+    # This variable is the result of the above to generate the user display info
     out_string = dis_dir
-    # Displaying the path information
+
+    # Displaying the informaton to the user
     print(out_string, end="\r")
     sys.stdout.flush()
     return []  # nothing will be ignored
