@@ -30,7 +30,7 @@ def perform_backup():
         "Backup Starting \nTotal files for backup: %s \nTotal size to backup: %s MB"
         % (files_backup, str("{0:.2f}".format(total_size)))
     )
-    shutil.copytree(source_dir, dest_dir, ignore=logpath)
+    shutil.copytree(source_dir, dest_dir, ignore=log_path)
     print("Backup completed")
 
 
@@ -84,7 +84,7 @@ def output_size():
 
 
 # Logging function in shutil to display information at each operation
-def logpath(path, names):
+def log_path(path, names):
     # Getting variables used to generate CLI output informaton
     cur_dir = str(path)
     backup_size, backup_files = output_size()
