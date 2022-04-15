@@ -80,34 +80,45 @@ def output_size():
             backup_size += os.path.getsize(fp)
             file_count += 1
 
-    return backup_size / 1024**2
+    return backup_size / 1024**2, file_count
 
 
 # Logging function in shutil to display information at each operation
 def logpath(path, names):
     # Getting variables used to generate CLI output informaton
     cur_dir = str(path)
-    backup_size = output_size()
+    backup_size, backup_files = output_size()
+    source_size, source_files = get_backup_size()
 
     # Handling a path longer than 50 chars for displaying correctly
     if len(cur_dir) > 50:
         dis_dir = (
-            "Current Dir: "
+            "Current: "
             + cur_dir[0:20]
             + "..."
             + cur_dir[len(cur_dir) - 30 : len(cur_dir)]
-            + " | ---- | Backup Size: "
+            + " |----| Progress: "
             + str("{0:.2f}".format(backup_size))
+            + "/"
+            + str("{0:.2f}".format(source_size))
             + " MB"
+            + " | "
+            + str("{0:.4f}".format(backup_size / source_size * 100))
+            + "%"
         )
 
     else:
         dis_dir = (
-            "Current Dir: "
+            "Current: "
             + cur_dir
-            + " | ---- | Backup Size: "
+            + " |----| Progress: "
             + str("{0:.2f}".format(backup_size))
+            + "/"
+            + str("{0:.2f}".format(source_size))
             + " MB"
+            + " | "
+            + str("{0:.4f}".format(backup_size / source_size * 100))
+            + "%"
         )
 
     # This variable is the result of the above to generate the CLI output info
