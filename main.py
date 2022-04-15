@@ -82,4 +82,4 @@ else:
         get_folders()
         perform_backup()
     else:
-        print("Backup folder or original folders do not exist.")
+        print("Backup source or destination do not exist.")
