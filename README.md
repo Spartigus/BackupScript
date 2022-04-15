@@ -6,5 +6,7 @@ The script then scans the folder to see how far back the history goes, if there 
 
 Based in Python, this script shows the ability to navigate folders and perform folder operations such as searching, iterating, copying and deleting folders.
 
+To alter the location of the backup and the source folders, edit the .env file located in the repo.
+
 Below is a screenshot of an example of the CLI display
 ![Screenshot from 2022-04-15 13-24-56](https://user-images.githubusercontent.com/99443437/163513445-68c6ea28-a934-498a-82fb-2fb4f65d69ea.png)
