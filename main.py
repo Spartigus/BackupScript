@@ -67,7 +67,12 @@ def get_backup_size():
 
 # Logging function in shutil to log information
 def logpath(path, names):
-    print("Current Directory: ", path, end="\r")
+    # Truncating the path to fit
+    cur_dir = str(path)
+    dis_dir = cur_dir[0:25] + "..." + cur_dir[len(cur_dir) - 25 : len(cur_dir)]
+
+    # Displaying the path information
+    print("Current Directory: ", dis_dir, end="\r")
     sys.stdout.flush()
     return []  # nothing will be ignored
 
